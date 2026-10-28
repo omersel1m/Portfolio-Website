@@ -1,0 +1,1119 @@
+/* The original portfolio stylesheet, ported as-is. Changes from the original
+   are marked "fix:" and only correct layout bugs and uneven spacing. */
+
+:root {
+    --dark-bg: #0a1929;
+    --light-bg: #ffffff;
+    --primary-color: #3b82f6;
+    --text-light: #f3f4f6;
+    --text-dark: #0a1929;
+    --accent-color: #60a5fa;
+    --hover-color: #2563eb;
+    --card-dark: #374151;
+    --card-light: #f3f4f6;
+    --orange: #fe8d14;
+    --error: #dc2626;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* fix: the original scrolled with JS and an 80px offset; CSS does the same. */
+html {
+    scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+body {
+    font-family: var(--font-inter), sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--light-bg);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 1rem;
+    z-index: 2000;
+    background: var(--light-bg);
+    color: var(--text-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.skip-link:focus {
+    left: 1rem;
+}
+
+/* Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--dark-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.navbar .container {
+    max-width: 100%;
+    padding: 0 2%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 80px;
+    position: relative;
+}
+
+.logo {
+    font-family: var(--font-anton), serif;
+    font-size: 1.4rem;
+    font-style: normal;
+    color: var(--text-light);
+    position: absolute;
+    left: 2%;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 4rem;
+    padding-right: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* fix: the hamburger is a real button now, so reset the global button style. */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    background: none;
+    padding: 8px 0;
+    border-radius: 0;
+}
+
+.hamburger:hover {
+    background: none;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 2px;
+    background-color: var(--text-light);
+    transition: 0.3s;
+}
+
+/* Hero Section
+   fix: shorter than the original full-screen hero, as requested. */
+.hero {
+    height: 82vh;
+    min-height: 620px;
+    max-height: 820px;
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+    padding-top: 80px;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 25, 41, 0.7);
+    z-index: 1;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+/* fix: minmax(0, …) keeps the wide avatar from squeezing the text column. */
+.hero-content {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: flex-start;
+    gap: 0;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-text {
+    text-align: left;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    z-index: 2;
+    position: relative;
+    align-self: center;
+}
+
+.hero-greeting span {
+    color: var(--orange);
+}
+
+/* fix: sized from the hero's height instead of the viewport, so the avatar
+   keeps its place at the bottom right of the shorter hero. */
+.profile-img {
+    width: auto;
+    max-width: none;
+    height: 62%;
+    object-fit: contain;
+    object-position: bottom;
+    justify-self: end;
+    position: relative;
+    right: -100px;
+    z-index: 1;
+    transform: scale(1.2);
+    align-self: flex-end;
+}
+
+.hero-greeting {
+    font-family: var(--font-press-start), cursive;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    letter-spacing: 2px;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: 400;
+}
+
+.hero-greeting span {
+    display: inline-block;
+}
+
+.hero-name {
+    font-family: var(--font-oswald), sans-serif;
+    font-size: 5.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    line-height: 1.1;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.hero h2 {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 500px;
+    color: var(--text-light);
+    margin-bottom: 0;
+}
+
+/* Hero Responsive */
+@media (max-width: 1200px) {
+    .hero-name {
+        font-size: 4.5rem;
+    }
+}
+
+@media (max-width: 968px) {
+    /* fix: the stacked layout grows with its content instead of being cut off. */
+    .hero {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        padding-bottom: 3.5rem;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1.5rem;
+        height: auto;
+    }
+
+    .hero-text {
+        text-align: center;
+        order: 2;
+        padding-top: 0;
+    }
+
+    .profile-img {
+        justify-self: center;
+        order: 1;
+        width: 100%;
+        height: auto;
+        max-width: 400px;
+        right: 0;
+        transform: none;
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+    }
+
+    .hero-greeting {
+        font-size: 2.2rem;
+        justify-content: center;
+    }
+
+    .hero-name {
+        font-size: 3.2rem;
+    }
+
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+
+    .hero p {
+        margin: 0 auto;
+    }
+
+    .nav-links {
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 2rem;
+    }
+
+    .hero-greeting {
+        font-size: 1.8rem;
+    }
+
+    .hero-name {
+        font-size: 2.8rem;
+    }
+}
+
+/* fix: the original greeting and name ran off the screen on phones. */
+@media (max-width: 480px) {
+    .hero-text {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .hero-greeting {
+        font-size: 1.35rem;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-name {
+        font-size: 2.3rem;
+    }
+}
+
+/* Sosyal Medya Linkleri */
+.social-links {
+    position: fixed;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 1000;
+}
+
+.social-links a {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    transition: all 0.3s;
+    background-color: var(--card-dark);
+    backdrop-filter: blur(5px);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+    background-color: var(--dark-bg);
+    transform: translateX(5px);
+}
+
+.social-links svg {
+    width: 1em;
+    height: 1em;
+}
+
+/* fix: below 1280px the fixed column covered the hero text and the cards, so
+   the same icons show as a row under the tagline instead. */
+.social-links--inline {
+    display: none;
+}
+
+@media (max-width: 1280px) {
+    .social-links:not(.social-links--inline) {
+        display: none;
+    }
+
+    .social-links--inline {
+        display: flex;
+        position: static;
+        transform: none;
+        flex-direction: row;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .social-links--inline a:hover {
+        transform: translateY(-3px);
+    }
+}
+
+@media (max-width: 968px) {
+    .social-links--inline {
+        justify-content: center;
+    }
+
+    .social-links--inline a {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+/* fix: every section uses the same vertical padding and title size; the
+   original mixed 80px / 100px and 2rem / 2.5rem. */
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* About Section */
+.about {
+    padding: 100px 0;
+    position: relative;
+    background-color: var(--light-bg);
+}
+
+.about-intro {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+    opacity: 0.9;
+}
+
+.about .section-title {
+    margin-bottom: 1.5rem;
+}
+
+/* fix: the three cards share the container width equally instead of fixed
+   350px columns that sat off-center. */
+.about-content {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 0;
+    background-color: var(--light-bg);
+}
+
+.skills, .experience, .education {
+    background: var(--card-light);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.skills:hover, .experience:hover, .education:hover {
+    transform: translateY(-5px);
+}
+
+.skills h3, .experience h3, .education h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--dark-bg);
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.skills h3::after, .experience h3::after, .education h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+}
+
+.skill-tags li {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.skill-tags li:hover {
+    background-color: var(--primary-color);
+}
+
+/* fix: experience and education used separate copies of the same rules and
+   a fixed min-height to line them up; they now share one timeline style. */
+.timeline {
+    list-style: none;
+    background-color: var(--card-light);
+    padding: 2rem 0 0 1rem;
+    border-radius: 15px;
+    margin-top: 1rem;
+}
+
+.timeline-item {
+    margin-bottom: 3rem;
+    padding-left: 2rem;
+    border-left: 2px solid var(--primary-color);
+    position: relative;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--light-bg);
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 2px #f8f9fa;
+}
+
+.timeline-item:hover::before {
+    background: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.timeline-item h4 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+    position: relative;
+    top: -4px;
+}
+
+.timeline-item p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/* fix: the date gets its own line instead of wrapping mid-sentence after "|". */
+.timeline-item p span {
+    display: block;
+}
+
+.timeline-item ul {
+    list-style: none;
+    margin-top: 0.8rem;
+}
+
+.timeline-item ul li {
+    position: relative;
+    padding-left: 1.2rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.timeline-item ul li:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-item ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+/* Slider dots, shown only where the cards scroll sideways. */
+.slider-nav {
+    display: none;
+}
+
+/* fix: on tablets and phones the cards scroll sideways with snap points, and
+   the dots (hidden in the original) jump between them. */
+@media (max-width: 968px) {
+    .about-content {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 1rem 0.25rem 2rem;
+        align-items: flex-start;
+    }
+
+    .about-content::-webkit-scrollbar {
+        display: none;
+    }
+
+    .slider-item {
+        flex: 0 0 min(85%, 380px);
+        scroll-snap-align: center;
+    }
+
+    .slider-nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    .nav-btn {
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        border-radius: 50%;
+        background-color: #cbd5e1;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .nav-btn:hover {
+        background-color: var(--accent-color);
+    }
+
+    .nav-btn.active {
+        background-color: var(--primary-color);
+        transform: scale(1.2);
+    }
+}
+
+@media (max-width: 768px) {
+    .about-intro {
+        padding: 0 1rem;
+    }
+
+    .skills, .experience, .education {
+        padding: 1.5rem;
+    }
+}
+
+/* Projects Section */
+.projects {
+    padding: 100px 0;
+    position: relative;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.projects::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 25, 41, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.projects .container {
+    position: relative;
+    z-index: 1;
+}
+
+.projects .section-title {
+    margin-bottom: 3rem;
+    color: var(--text-light);
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 25, 41, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    background: rgba(10, 25, 41, 0.6);
+}
+
+.project-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-light);
+}
+
+.project-card p {
+    color: var(--text-light);
+    opacity: 0.9;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    list-style: none;
+}
+
+.project-tags li {
+    background: rgba(10, 25, 41, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: var(--text-light);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-tags li:hover {
+    background: var(--primary-color);
+}
+
+/* fix: tags and button sit at the bottom of every card, so the buttons line
+   up across a row even when the descriptions differ in length. */
+.project-footer {
+    margin-top: auto;
+}
+
+.project-link {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: var(--primary-color);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+    font-size: 0.9rem;
+}
+
+.project-link:hover {
+    background: var(--hover-color);
+    transform: translateY(-2px);
+}
+
+.project-private {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    opacity: 0.75;
+}
+
+@media (max-width: 768px) {
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Contact Section */
+.contact {
+    padding: 100px 0;
+    position: relative;
+    background-color: var(--light-bg);
+}
+
+.contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(5px);
+}
+
+.contact .container {
+    position: relative;
+    z-index: 1;
+}
+
+.contact .section-title {
+    margin-bottom: 3rem;
+    color: var(--text-dark);
+}
+
+.contact-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--card-dark);
+    border-radius: 5px;
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.95rem;
+    background-color: var(--card-light);
+    color: var(--text-dark);
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+input[aria-invalid="true"], textarea[aria-invalid="true"] {
+    border-color: var(--error);
+}
+
+.field-error {
+    margin-top: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--error);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-status {
+    font-size: 0.95rem;
+}
+
+.form-status.is-sent {
+    color: #15803d;
+}
+
+.form-status.is-error {
+    color: var(--error);
+}
+
+.form-status:focus {
+    outline: none;
+}
+
+.honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+button {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--hover-color);
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: progress;
+}
+
+/* Footer */
+footer {
+    position: relative;
+    padding: 2rem 0;
+    color: var(--text-light);
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 25, 41, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+footer .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+footer p {
+    color: var(--text-light);
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* fix: the hamburger never appeared and the menu was always open, white
+       text on a white panel. It now toggles and matches the navbar. */
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--dark-bg);
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2rem 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    .hero h2 {
+        font-size: 1.25rem;
+    }
+
+    .hero, .about, .projects, .contact, footer {
+        background-size: cover;
+        background-position: center;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .about, .projects, .contact {
+        padding: 80px 0;
+    }
+}
+
+/* fix: fixed backgrounds don't render on touch devices; scroll with the page there. */
+@media (hover: none) {
+    .hero, .projects, footer {
+        background-attachment: scroll;
+    }
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-content, .about-content, .project-card {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-content, .about-content, .project-card {
+        animation: none;
+    }
+}
+
+/* Form Geri Bildirimi */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--hover-color);
+    box-shadow: 0 0 0 2px rgba(92, 107, 192, 0.2);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
+}
+
+/* Scroll Bar Stilleri */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--card-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+/* 404 page */
+.not-found {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: var(--text-light);
+}
+
+.not-found::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(10, 25, 41, 0.8);
+}
+
+.not-found .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.not-found .hero-greeting {
+    justify-content: center;
+    color: var(--orange);
+}
+
+.not-found p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
